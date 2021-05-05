@@ -22,7 +22,7 @@
         <activity android:name="com.study.prepshala.Search.SearchActivity" />
         <activity android:name="com.study.prepshala.secretDiary.SecretDiaryActivity" />
         <activity android:name="com.study.prepshala.notes.NotesActivity" />
-        <activity android:name="com.study.prepshala.ToDo.ToDoActivity" />
+        <activity android:name="com.study.prepshala.toDo.ToDoActivity" />
         <activity android:name="com.study.prepshala.lecture.LectureActivity" />
         <activity android:name="com.study.prepshala.lakshaya.LakshyaActivity" />
         <activity android:name="com.study.prepshala.groupStudy.GroupStudy" />
