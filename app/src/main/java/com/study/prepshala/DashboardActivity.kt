@@ -21,7 +21,7 @@ import com.study.prepshala.lecture.LectureActivity
 import com.study.prepshala.notes.NotesActivity
 import com.study.prepshala.Search.SearchActivity
 import com.study.prepshala.secretDiary.SecretDiaryActivity
-import com.study.prepshala.ToDo.ToDoActivity
+import com.study.prepshala.toDo.ToDoActivity
 import com.study.prepshala.Utils.toast
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
