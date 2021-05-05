@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".chat.ChatActivity">
 
+
     <TextView
         android:id="@+id/ChatTextView"
         android:layout_width="wrap_content"
