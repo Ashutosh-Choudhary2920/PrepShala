@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.study.prepshala">
+
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.MICROPHONE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PrepShala">
+        <activity android:name="com.study.prepshala.secretDiary.DiaryContent"></activity>
+        <activity android:name="com.study.prepshala.pdfReader.PdfViewActivity" />
+        <activity android:name="com.study.prepshala.Search.SearchActivity" />
+        <activity android:name="com.study.prepshala.secretDiary.SecretDiaryActivity" />
+        <activity android:name="com.study.prepshala.notes.NotesActivity" />
+        <activity android:name="com.study.prepshala.ToDo.ToDoActivity" />
+        <activity android:name="com.study.prepshala.lecture.LectureActivity" />
+        <activity android:name="com.study.prepshala.lakshaya.LakshyaActivity" />
+        <activity android:name="com.study.prepshala.groupStudy.GroupStudy" />
+        <activity android:name="com.study.prepshala.chat.ChatActivity" />
+        <activity android:name="com.study.prepshala.DashboardActivity" />
+        <activity android:name="com.study.prepshala.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
