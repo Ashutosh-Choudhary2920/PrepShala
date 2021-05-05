@@ -1,4 +1,4 @@
-package com.study.prepshala.ToDo
+package com.study.prepshala.toDo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
