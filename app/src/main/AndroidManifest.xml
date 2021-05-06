@@ -17,18 +17,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PrepShala">
-        <activity android:name="com.study.prepshala.secretDiary.DiaryContent"></activity>
-        <activity android:name="com.study.prepshala.pdfReader.PdfViewActivity" />
-        <activity android:name="com.study.prepshala.Search.SearchActivity" />
-        <activity android:name="com.study.prepshala.secretDiary.SecretDiaryActivity" />
-        <activity android:name="com.study.prepshala.notes.NotesActivity" />
-        <activity android:name="com.study.prepshala.toDo.ToDoActivity" />
-        <activity android:name="com.study.prepshala.lecture.LectureActivity" />
-        <activity android:name="com.study.prepshala.lakshaya.LakshyaActivity" />
-        <activity android:name="com.study.prepshala.groupStudy.GroupStudy" />
-        <activity android:name="com.study.prepshala.chat.ChatActivity" />
-        <activity android:name="com.study.prepshala.DashboardActivity" />
-        <activity android:name="com.study.prepshala.SplashScreen">
+        <activity android:name=".toDo.HistoryActivity"></activity>
+        <activity android:name=".toDo.TaskActivity" />
+        <activity android:name=".secretDiary.DiaryContent" />
+        <activity android:name=".pdfReader.PdfViewActivity" />
+        <activity android:name=".Search.SearchActivity" />
+        <activity android:name=".secretDiary.SecretDiaryActivity" />
+        <activity android:name=".notes.NotesActivity" />
+        <activity android:name=".toDo.ToDoActivity" />
+        <activity android:name=".lecture.LectureActivity" />
+        <activity android:name=".lakshaya.LakshyaActivity" />
+        <activity android:name=".groupStudy.GroupStudy" />
+        <activity android:name=".chat.ChatActivity" />
+        <activity android:name=".DashboardActivity" />
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
