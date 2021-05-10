@@ -1,10 +1,13 @@
 package com.study.prepshala.toDo
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.room.Room
 import com.study.prepshala.R
 import com.study.prepshala.eLectureDatabase.LectureDatabase.Companion.getDatabase
@@ -19,6 +22,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var myCalendar: Calendar
 
     lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
+    lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
+
+    private val labels = arrayListOf("Personal", "Business", "Insurance", "Shopping", "Banking")
 
     val db by lazy {
         Room.databaseBuilder(
@@ -33,6 +39,18 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_task)
 
         dateEdt.setOnClickListener(this)
+        timeEdt.setOnClickListener(this)
+
+        setUpSpinner()
+    }
+
+    private fun setUpSpinner() {
+        val adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, labels)
+
+        labels.sort()
+
+        spinnerCategory.adapter = adapter
     }
 
     override fun onClick(v: View) {
@@ -40,9 +58,37 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             R.id.dateEdt -> {
                 setListener()
             }
+            R.id.timeEdt -> {
+                setTimeListener()
+            }
         }
     }
 
+
+    private fun setTimeListener() {
+        myCalendar = Calendar.getInstance()
+
+        timeSetListener =
+            TimePickerDialog.OnTimeSetListener() { _: TimePicker, hourOfDay: Int, min: Int ->
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                myCalendar.set(Calendar.MINUTE, min)
+                updateTime()
+            }
+
+        val timePickerDialog = TimePickerDialog(
+            this, timeSetListener, myCalendar.get(Calendar.HOUR_OF_DAY),
+            myCalendar.get(Calendar.MINUTE), false
+        )
+        timePickerDialog.show()
+    }
+
+    private fun updateTime() {
+        //Mon, 5 Jan 2020
+        val myformat = "h:mm a"
+        val sdf = SimpleDateFormat(myformat)
+        timeEdt.setText(sdf.format(myCalendar.time))
+
+    }
     private fun setListener() {
         myCalendar = Calendar.getInstance()
 
