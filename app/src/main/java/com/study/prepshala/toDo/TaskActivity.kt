@@ -14,6 +14,10 @@ import com.study.prepshala.eLectureDatabase.LectureDatabase.Companion.getDatabas
 import com.study.prepshala.notesDatabase.NotesDatabase.Companion.getDatabase
 import com.study.prepshala.secretDiaryDatabase.SecretDiaryDatabase.Companion.getDatabase
 import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,14 +28,14 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
     lateinit var timeSetListener: TimePickerDialog.OnTimeSetListener
 
+    var finalDate = 0L
+    var finalTime = 0L
+
+
     private val labels = arrayListOf("Personal", "Business", "Insurance", "Shopping", "Banking")
 
     val db by lazy {
-        Room.databaseBuilder(
-            this,
-            AppDatabase::class.java,
-            DB_NAME
-        )
+        AppDatabase.getDatabase(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
         dateEdt.setOnClickListener(this)
         timeEdt.setOnClickListener(this)
+        saveBtn.setOnClickListener(this)
 
         setUpSpinner()
     }
@@ -61,7 +66,32 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             R.id.timeEdt -> {
                 setTimeListener()
             }
+            R.id.saveBtn -> {
+                saveTodo()
+            }
         }
+    }
+
+    private fun saveTodo() {
+        val category = spinnerCategory.selectedItem.toString()
+        val title = titleInpLay.editText?.text.toString()
+        val description = taskInpLay.editText?.text.toString()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val id = withContext(Dispatchers.IO) {
+                return@withContext db.todoDao().insertTask(
+                    TodoModel(
+                        title,
+                        description,
+                        category,
+                        finalDate,
+                        finalTime
+                    )
+                )
+            }
+            finish()
+        }
+
     }
 
 
@@ -86,6 +116,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         //Mon, 5 Jan 2020
         val myformat = "h:mm a"
         val sdf = SimpleDateFormat(myformat)
+        finalTime = myCalendar.time.time
         timeEdt.setText(sdf.format(myCalendar.time))
 
     }
@@ -113,6 +144,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         //Mon, 5 Jan 2020
         val myformat = "EEE, d MMM yyyy"
         val sdf = SimpleDateFormat(myformat)
+        finalDate = myCalendar.time.time
         dateEdt.setText(sdf.format(myCalendar.time))
 
         timeInptLay.visibility = View.VISIBLE
