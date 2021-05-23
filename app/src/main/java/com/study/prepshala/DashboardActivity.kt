@@ -1,11 +1,17 @@
 package com.study.prepshala
 
 //import androidx.biometric.BiometricPrompt
+import android.Manifest
 import android.app.KeyguardManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.Bundle
@@ -14,15 +20,22 @@ import android.widget.SearchView.OnQueryTextListener
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.study.prepshala.chat.ChatActivity
+import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import com.study.prepshala.Search.SearchActivity
+import com.study.prepshala.Utils.toast
+import com.study.prepshala.chat.PhoneNumberActivity
 import com.study.prepshala.groupStudy.GroupStudy
 import com.study.prepshala.lakshaya.LakshyaActivity
+import com.study.prepshala.lakshyaDatabase.Lakshya
+import com.study.prepshala.lakshyaDatabase.LakshyaViewModel
 import com.study.prepshala.lecture.LectureActivity
 import com.study.prepshala.notes.NotesActivity
-import com.study.prepshala.Search.SearchActivity
 import com.study.prepshala.secretDiary.SecretDiaryActivity
 import com.study.prepshala.toDo.ToDoActivity
-import com.study.prepshala.Utils.toast
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.json.JSONArray
 import java.io.IOException
@@ -48,6 +61,18 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
+    //Variables for Notification
+    private val CHANNEL_ID = "channel_id_prepshala_01"
+    private val longTermNotificationID = 101
+    private val shortTermNotificationID = 102
+
+    //Variables for getting Long and Short term goals
+    lateinit var viewModel: LakshyaViewModel
+    private var allEntries = listOf<Lakshya>()
+    var shortTermGoal: String = "Please set your Short Term Goal"
+    var longTermGoal: String = "Please set your Long Term Goal"
+
+
 
     //....................................................................................//
 
@@ -56,8 +81,27 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
+        if(checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            getPermissions()
+        }
         init()
+
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+        ).get(LakshyaViewModel::class.java)
+
+        viewModel.allEntries.observe(this, Observer {
+            allEntries = it
+            if(allEntries != null) {
+                setGoals(allEntries)
+            }
+        })
+
+        createNotificationChannel()
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -82,7 +126,12 @@ class DashboardActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
     private fun setListners() {
         chat.setOnClickListener() {
-            activityStarter(ChatActivity::class.java)
+            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                getPermissions()
+            }
+            else {
+                activityStarter(PhoneNumberActivity::class.java)
+            }
         }
 
         todo.setOnClickListener() {
@@ -98,7 +147,13 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         groupStudy.setOnClickListener() {
-            activityStarter(GroupStudy::class.java)
+            if(checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                getPermissions()
+            }
+            else {
+                activityStarter(GroupStudy::class.java)
+            }
         }
 
         lakshya.setOnClickListener() {
@@ -139,7 +194,6 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setQuotes() {
         var json : String? = null
-
         try {
             val inputSream : InputStream = assets.open("quotes.json")
             json = inputSream.bufferedReader().use { it.readText() }
@@ -201,5 +255,92 @@ class DashboardActivity : AppCompatActivity() {
         return (start..end).random()
     } //utility function to generation random number between start and end
 
+    private fun createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "PrepShala Notification"
+            val descriptionText = "My Goals"
+            val importance: Int = NotificationManager.IMPORTANCE_DEFAULT
+            val channel: NotificationChannel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+                enableVibration(true)
+                //vibrationPattern = longArrayOf(0, 1000, 500, 1000)
+            }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
+    private fun sendLongTermGoalAsNotification(goal: String) {
+        val intent = Intent(this, LakshyaActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val bitmap: Bitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.goal_image)
+        val bitmapLargeIcon: Bitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.front_image)
+
+        val builder = androidx.core.app.NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.front_image)
+            //.setVibrate(longArrayOf(0, 1000, 500, 1000))
+            .setContentTitle("My Long Term Goal is: ")
+//            .setContentText("To become a software Engineer")
+            .setLargeIcon(bitmap)
+            .setStyle(androidx.core.app.NotificationCompat.BigTextStyle().bigText(goal))
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+        with(NotificationManagerCompat.from(this)) {
+            notify(longTermNotificationID, builder.build())
+        }
+    }
+
+    private fun sendShortTermGoalAsNotification(goal: String) {
+        val intent = Intent(this, LakshyaActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val bitmap: Bitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.goal_image)
+        val bitmapLargeIcon: Bitmap = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.front_image)
+
+        val builder = androidx.core.app.NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.front_image)
+            //.setVibrate(longArrayOf(0, 1000, 500, 1000))
+            .setContentTitle("My Short Term Goal is: ")
+            //.setContentText("To become a software Engineer")
+            .setLargeIcon(bitmap)
+            .setStyle(androidx.core.app.NotificationCompat.BigTextStyle().bigText(goal))
+            .setPriority(androidx.core.app.NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+        with(NotificationManagerCompat.from(this)) {
+            notify(shortTermNotificationID, builder.build())
+        }
+    }
+
+    private fun setGoals(entries: List<Lakshya>?) {
+        for(i in  0..entries!!.size-1) {
+            if(entries[i].goalType == "long") {
+                longTermGoal = entries[i].goal
+                sendLongTermGoalAsNotification(longTermGoal)  //Pushing Notification
+            }
+            else if(entries[i].goalType == "short") {
+                shortTermGoal = entries[i].goal
+                sendShortTermGoalAsNotification(shortTermGoal) //Pushing Notification
+            }
+        }
+    }
+
+    private fun getPermissions() {
+        val permissionListner = object: PermissionListener {
+            override fun onPermissionGranted() {
+                toast("Permission Granted")
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                toast("Permission Denied. Kindly grant permissions to continue")
+                //finish()
+            }
+        }
+        TedPermission.with(this)
+            .setPermissionListener(permissionListner)
+            .setPermissions(Manifest.permission.READ_CONTACTS, Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+            .check()
+    }
 }

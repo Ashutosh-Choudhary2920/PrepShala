@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401215750879",
+    "project_id": "prepshala-d1b6d",
+    "storage_bucket": "prepshala-d1b6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401215750879:android:5b036f2407d0874cda9f6a",
+        "android_client_info": {
+          "package_name": "com.study.prepshala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401215750879-hi3nosl1t9rb52p86tc5pd840nloping.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZFNV_VvVgdiPPRCcJ4ZYY135-KelFVR4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401215750879-hi3nosl1t9rb52p86tc5pd840nloping.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
