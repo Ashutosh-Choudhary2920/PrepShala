@@ -1,12 +1,19 @@
 package com.study.prepshala.Utils
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
+import com.study.prepshala.R
+import com.study.prepshala.fullscreenImageDisplay.FullscreenDisplay
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -46,6 +53,7 @@ fun getCurrentDate(): String {
     return currentDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))
 }
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun getCurrentTime(): String {
     val currentTime = LocalTime.now()
@@ -71,4 +79,21 @@ fun getDate(time: Long): String {
         SimpleDateFormat(DATE_FORMAT_1, Locale.getDefault())
     format.timeZone = TimeZone.getDefault()
     return format.format(date)
+}
+
+fun displayImage(context: Context, imageUrl: String?, personName: String? = "") {
+    val inflater  = LayoutInflater.from(context)
+    val view = inflater.inflate(R.layout.display_image, null)
+    val displayImage = view.findViewById<ImageView>(R.id.displayImage)
+    val addDialog = AlertDialog.Builder(context)
+    addDialog.setView(view)
+    Glide.with(context).load(imageUrl).placeholder(R.drawable.avatar).into(displayImage)
+    addDialog.create()
+    addDialog.show()
+    displayImage.setOnClickListener {
+        val intent = Intent(context, FullscreenDisplay::class.java)
+        intent.putExtra("imageUrl", imageUrl)
+        intent.putExtra("personName", personName)
+        context.startActivity(intent)
+    }
 }

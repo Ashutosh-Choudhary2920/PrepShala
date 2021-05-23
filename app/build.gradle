@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-kapt'
 }
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -102,12 +104,14 @@ dependencies {
     })
     androidTestImplementation "androidx.test.ext:junit:$rootProject.androidxJunitVersion"
 
+    //For Pdf Viewer
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
     implementation 'com.mindorks.android:prdownloader:0.6.0'
 
 
     //Uncomment this for SDK initialisation of Group Study
     //implementation ('org.jitsi.react:jitsi-meet-sdk:2.+') { transitive = true }
+
 
 //    Done by Sid
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
@@ -119,4 +123,42 @@ dependencies {
     implementation "androidx.room:room-ktx:2.3.0"
     kapt "androidx.room:room-compiler:2.3.0"
 
+
+    //For OTP
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+
+    //Circle Image View
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Shimmer Recycler View
+    implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
+
+    //Glide Image Processing Library
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    //Chat Reaction
+    implementation "com.github.pgreze:android-reactions:1.5.1"
+
+    //circular status view
+    implementation 'com.devlomi:circularstatusview:1.0.1'
+
+    //Story View
+    implementation 'com.github.OMARIHAMZA:StoryView:1.0.2-alpha'
+
+    //Zoom Image
+    compile 'com.commit451:PhotoView:1.2.4'
+
+    //For asking Permissions from Users
+    implementation 'gun0912.ted:tedpermission:2.2.2'
+    implementation 'gun0912.ted:tedpermission-rx1:2.2.2'
+    implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
 }

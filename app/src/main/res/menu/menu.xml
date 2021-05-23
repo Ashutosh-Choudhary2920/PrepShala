@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/updateProfile"
+        android:icon="@drawable/ic_account_circle"
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/status"
+        android:icon="@drawable/ic_status"
+        android:title="Status" />
+
+    <item
+        android:id="@+id/lowerMenuLogout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout" />
+
+</menu>
