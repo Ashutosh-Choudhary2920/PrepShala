@@ -9,4 +9,13 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="save_task">Save Task</string>
+    <string name="set_time">Set Time</string>
+    <string name="todo">TODO</string>
+    <string name="set_date">Set Date</string>
+    <string name="set_reminder_date_and_time">Set reminder date and time</string>
+    <string name="enter_your_task">Enter your Task</string>
+    <string name="what_is_to_be_done">What is to be done?</string>
+    <string name="enter_task_title">Enter Task title</string>
+    <string name="task_title">Task Title</string>
 </resources>

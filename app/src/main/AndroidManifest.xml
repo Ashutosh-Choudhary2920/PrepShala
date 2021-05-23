@@ -18,6 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PrepShala">
+
+        <activity android:name=".toDo.HistoryActivity"></activity>
+        <activity android:name=".toDo.TaskActivity" />
+
         <activity android:name=".chat.DisplayIndividualContacts"></activity>
         <activity android:name=".chat.UpdateProfile" />
         <activity android:name=".fullscreenImageDisplay.FullscreenDisplay" />
@@ -30,6 +34,7 @@
         <activity
             android:name=".chat.OTPActivity"
             android:windowSoftInputMode="stateVisible" />
+
         <activity android:name=".secretDiary.DiaryContent" />
         <activity android:name=".pdfReader.PdfViewActivity" />
         <activity android:name=".Search.SearchActivity" />
@@ -39,6 +44,7 @@
         <activity android:name=".lecture.LectureActivity" />
         <activity android:name=".lakshaya.LakshyaActivity" />
         <activity android:name=".groupStudy.GroupStudy" />
+        <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".chat.ChatHomeActivity"
             android:theme="@style/Theme.ActionBar" />
