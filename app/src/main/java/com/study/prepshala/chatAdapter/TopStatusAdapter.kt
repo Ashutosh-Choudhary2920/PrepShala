@@ -72,27 +72,7 @@ class TopStatusAdapter(var context: Context, var userStatuses: ArrayList<UserSta
         //var userStatus: UserStatus = userStatuses.get(position)
         var userStatus: UserStatus = inContactsUsersStatus.get(position)
         var lastStatus: Status?
-        val date: Date = Date()
         var portionCount = 0
-//        if(userStatus.statuses!!.size - 1 >= 0) {
-//            lastStatus = userStatus.statuses!![userStatus.statuses!!.size - 1]
-//            val difference = date.time - lastStatus.updatedDate?.time!!
-//            val seconds = difference / 1000
-//            val minutes = seconds / 60
-//            val hours = minutes / 60
-//            val days = hours / 24
-//            if(days >= 1) {
-//                return
-//            }
-//        }
-//        val diff = date.time - userStatus.statuses?.get(position)?.updatedDate?.time!!
-//        val seconds = diff / 1000
-//        val minutes = seconds / 60
-//        val hours = minutes / 60
-//        val days = hours / 24
-//        if(days >= 1) {
-//            return
-//        }
 
 //        if(inContactsUsersStatus.size - 1 >= 0) {
 //            lastStatus = userStatus.statuses!![userStatus.statuses!!.size - 1 ]
