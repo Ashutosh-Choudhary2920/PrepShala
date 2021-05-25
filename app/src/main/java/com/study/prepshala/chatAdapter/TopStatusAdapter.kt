@@ -71,26 +71,56 @@ class TopStatusAdapter(var context: Context, var userStatuses: ArrayList<UserSta
     override fun onBindViewHolder(holder: TopStatusViewHolder, position: Int) {
         //var userStatus: UserStatus = userStatuses.get(position)
         var userStatus: UserStatus = inContactsUsersStatus.get(position)
-        val lastStatus: Status?
+        var lastStatus: Status?
         val date: Date = Date()
-        val diff = date.time - userStatus.statuses?.get(position)?.updatedDate?.time!!
-        val seconds = diff / 1000
-        val minutes = seconds / 60
-        val hours = minutes / 60
-        val days = hours / 24
-        if(days >= 1) {
-            return
-        }
+        var portionCount = 0
+//        if(userStatus.statuses!!.size - 1 >= 0) {
+//            lastStatus = userStatus.statuses!![userStatus.statuses!!.size - 1]
+//            val difference = date.time - lastStatus.updatedDate?.time!!
+//            val seconds = difference / 1000
+//            val minutes = seconds / 60
+//            val hours = minutes / 60
+//            val days = hours / 24
+//            if(days >= 1) {
+//                return
+//            }
+//        }
+//        val diff = date.time - userStatus.statuses?.get(position)?.updatedDate?.time!!
+//        val seconds = diff / 1000
+//        val minutes = seconds / 60
+//        val hours = minutes / 60
+//        val days = hours / 24
+//        if(days >= 1) {
+//            return
+//        }
+
+//        if(inContactsUsersStatus.size - 1 >= 0) {
+//            lastStatus = userStatus.statuses!![userStatus.statuses!!.size - 1 ]
+//            Glide.with(context).load(lastStatus.imageUrl).into(holder.statusImage)
+//        }
 
         if(userStatus.statuses!!.size - 1 >= 0) {
             lastStatus = userStatus.statuses!![userStatus.statuses!!.size - 1 ]
-            Glide.with(context).load(lastStatus.imageUrl).into(holder.statusImage)
+            if(noOfDays(lastStatus.updatedDate?.time!!) <= 0) {
+                Glide.with(context).load(lastStatus.imageUrl).into(holder.statusImage)
+            }
+
         }
-        holder.circular_status_view.setPortionsCount(userStatus.statuses!!.size)
+        for(status: Status in userStatus.statuses!!) {
+            if (noOfDays(status.updatedDate?.time!!) <= 0) {
+                portionCount++
+            }
+        }
+
+        holder.circular_status_view.setPortionsCount(portionCount)
+//        holder.circular_status_view.setPortionsCount(userStatus.statuses!!.size) //uncomment this if changes do not work
         holder.circular_status_view.setOnClickListener {
             val myStories = ArrayList<MyStory>()
             for(status: Status in userStatus.statuses!!) {
-                myStories.add(MyStory(status.imageUrl))
+                if(noOfDays(status.updatedDate?.time!!) <= 0) {
+                    myStories.add(MyStory(status.imageUrl))
+                    portionCount ++
+                }
             }
             StoryView.Builder((context as ChatHomeActivity).supportFragmentManager)
                 .setStoriesList(myStories) // Required
@@ -110,5 +140,15 @@ class TopStatusAdapter(var context: Context, var userStatuses: ArrayList<UserSta
                 .build() // Must be called before calling show method
                 .show()
         }
+    }
+
+    private fun noOfDays(checkTime: Long): Long {
+        val date: Date = Date()
+        val difference = date.time - checkTime
+        val seconds = difference / 1000
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        val days = hours / 24
+        return days
     }
 }

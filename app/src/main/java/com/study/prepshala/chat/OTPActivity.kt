@@ -29,8 +29,6 @@ class OTPActivity : AppCompatActivity() {
     var verificationId: String? = ""
     var dialog: ProgressDialog? = null
     var phoneNumber: String? = ""
-    var users = arrayListOf<User>()
-    var listOfPhoneNo = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_o_t_p)
@@ -40,33 +38,16 @@ class OTPActivity : AppCompatActivity() {
         dialog!!.setCancelable(false)
         dialog!!.show()
         auth = FirebaseAuth.getInstance()
-        getListOfUsers()
+        //getListOfUsers()
 
         phoneNumber = intent.getStringExtra("phoneNumber")
         phoneLbl.setText("verify "+phoneNumber)
-
+        logD("$phoneNumber")
         otp_view.requestFocus()
         verifyPhone(phoneNumber)
     }
 
-    private fun getListOfUsers() {
-        database.getReference().child("users").addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-            override fun onDataChange(snapshot: DataSnapshot) {
-                users.clear()
-                var snapshot1: DataSnapshot
-                for(snapshot1 in snapshot.children) {
-                    val user: User = snapshot1.getValue(User::class.java)!!
-                    if(FirebaseAuth.getInstance().uid != user.uid) {
-                        users.add(user)
-                        listOfPhoneNo.add(user.phoneNumber.toString())
-                    }
-                }
-            }
-        })
-    }
+
 
     private fun verifyPhone(phoneNumber: String?) {
         logD("verify phone number function called")
@@ -111,25 +92,44 @@ class OTPActivity : AppCompatActivity() {
            logD("credentials = $credential")
             auth.signInWithCredential(credential).addOnCompleteListener {
                 if(it.isSuccessful) {
-                    if(listOfPhoneNo.contains(phoneNumber)) {
-                        toast("Signed in")
-                        val intent = Intent(this,ChatHomeActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()
-                    }
-                    else {
-                        toast("Signed in")
-                        val intent = Intent(this,SetupProfileActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()
-                    }
-
+                    checkUser(phoneNumber!!)
                 }
                 else {
                     toast("Failed")
                 }
             }
         }
+    }
+
+    private fun checkUser(phone: String = "") {
+        database.getReference().child("users").addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var found = 0
+                var snapshot1: DataSnapshot
+                for(snapshot1 in snapshot.children) {
+                    val user: User = snapshot1.getValue(User::class.java)!!
+                        if(phone == user.phoneNumber.toString()) {
+                            found ++
+                            break
+                        }
+                }
+                if(found != 0) {
+                    toast("Signed in")
+                    val intent = Intent(this@OTPActivity,ChatHomeActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+                else {
+                    toast("Signed in")
+                    val intent = Intent(this@OTPActivity,SetupProfileActivity::class.java)
+                    startActivity(intent)
+                    finishAffinity()
+                }
+            }
+        })
     }
 
     private fun signInUser(credential: PhoneAuthCredential) {

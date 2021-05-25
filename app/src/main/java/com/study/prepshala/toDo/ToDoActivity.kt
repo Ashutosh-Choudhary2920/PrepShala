@@ -19,30 +19,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ToDoActivity : AppCompatActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_to_do)
-//        setSupportActionBar(toolbar)
-//    }
-//
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.main_menu,menu)
-//
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.history->{
-//                startActivity(Intent(this,HistoryActivity::class.java))
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-//    fun openNewTask(view: View) {
-//        startActivity(Intent(this, TaskActivity::class.java))
-//    }
-
     val list = arrayListOf<TodoModel>()
     var adapter = TodoAdapter(list)
 
@@ -53,7 +29,8 @@ class ToDoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_to_do)
-        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbar)
+        supportActionBar?.setTitle("Todo")
         todoRv.apply {
             layoutManager = LinearLayoutManager(this@ToDoActivity)
             adapter = this@ToDoActivity.adapter
@@ -78,7 +55,8 @@ class ToDoActivity : AppCompatActivity() {
     fun initSwipe() {
         val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ItemTouchHelper.LEFT
+//                    or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -93,11 +71,12 @@ class ToDoActivity : AppCompatActivity() {
                     GlobalScope.launch(Dispatchers.IO) {
                         db.todoDao().deleteTask(adapter.getItemId(position))
                     }
-                } else if (direction == ItemTouchHelper.RIGHT) {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        db.todoDao().finishTask(adapter.getItemId(position))
-                    }
                 }
+//                else if (direction == ItemTouchHelper.RIGHT) {
+//                    GlobalScope.launch(Dispatchers.IO) {
+//                        db.todoDao().finishTask(adapter.getItemId(position))
+//                    }
+//                }
             }
 
             override fun onChildDraw(
@@ -223,8 +202,8 @@ class ToDoActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.history -> {
-                startActivity(Intent(this, HistoryActivity::class.java))
+            R.id.addItem -> {
+                startActivity(Intent(this, TaskActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

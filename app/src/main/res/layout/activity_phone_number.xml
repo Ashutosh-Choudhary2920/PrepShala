@@ -43,6 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneLbl" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/phoneNoCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -59,15 +60,33 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/phoneBox"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/textbox_outline"
-                android:ems="10"
-                android:hint="Type your phone number"
-                android:padding="10dp"
-                android:inputType="phone" />
+                android:orientation="horizontal">
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_showNameCode="false"
+                    tools:ccp_contentColor="#fcfdfd"
+                    tools:ccp_textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/phoneBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/textbox_outline"
+                    android:ems="10"
+                    android:hint="Type your phone number"
+                    android:padding="10dp"
+                    android:inputType="phone" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/continueBtn"
@@ -77,6 +96,7 @@
                 android:backgroundTint="#4CAF50"
                 android:text="Continue" />
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

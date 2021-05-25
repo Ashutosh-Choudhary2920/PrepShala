@@ -10,7 +10,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-
     <color name="red">#D32F2F</color>
     <color name="green">#388E3C</color>
     <color name="litherGray">#a1a1a1</color>
@@ -37,13 +36,13 @@
     </array>
 
 
-</resources>
+<!--</resources>-->
 
     <color name="chatNotificationbar">#075E54</color>
 
 
     <color name="grey">#E3E3E3</color>
-    <color name="green">#4CAF50</color>
+<!--    <color name="green">#4CAF50</color>-->
     <color name="greenDark">#28852C</color>
 </resources>
 

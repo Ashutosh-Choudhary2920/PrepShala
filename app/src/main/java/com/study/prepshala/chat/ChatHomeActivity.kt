@@ -96,7 +96,7 @@ class ChatHomeActivity : AppCompatActivity() {
         val contactList : MutableList<String> = ArrayList()
         if (contacts != null) {
             while (contacts.moveToNext()) {
-                val number = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                var number = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                 contactList.add(number)
             }
         }

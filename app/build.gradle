@@ -161,4 +161,7 @@ dependencies {
     implementation 'gun0912.ted:tedpermission:2.2.2'
     implementation 'gun0912.ted:tedpermission-rx1:2.2.2'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
+
+    //For country code
+    implementation 'com.hbb20:ccp:2.4.0'
 }

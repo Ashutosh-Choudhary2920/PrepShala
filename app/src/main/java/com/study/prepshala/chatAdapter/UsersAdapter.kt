@@ -22,6 +22,7 @@ import com.study.prepshala.Utils.logD
 import com.study.prepshala.chat.ChatActivity
 import com.study.prepshala.models.User
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_chat_home.*
 import kotlinx.android.synthetic.main.row_conversations.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -34,6 +35,8 @@ class UsersAdapter(var context: Context, var users: ArrayList<User>, val contact
     var inContactsUserNames = arrayListOf<String>()
     var inContactsUsersSearchedNames = arrayListOf<User>()
     private var isListFiltered = false
+    var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     inner class UsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profile = itemView.findViewById<CircleImageView>(R.id.profile)
         val username = itemView.findViewById<TextView>(R.id.username)
@@ -49,7 +52,7 @@ class UsersAdapter(var context: Context, var users: ArrayList<User>, val contact
     override fun getItemCount(): Int {
         var count = 0
         for(i in 0..users.size-1) {
-            if(contactList.contains(users[i].phoneNumber)) {
+            if(doesContactContain(users[i].phoneNumber)) {
                 count ++
                 if(!inContactsUsers.contains(users[i])) {
                     inContactsUsers.add(users[i])
@@ -57,6 +60,7 @@ class UsersAdapter(var context: Context, var users: ArrayList<User>, val contact
                 }
             }
         }
+
         if(!isListFiltered) {
             return count
         }
@@ -153,5 +157,14 @@ class UsersAdapter(var context: Context, var users: ArrayList<User>, val contact
             }
 
         }
+    }
+
+    private fun doesContactContain(number: String?): Boolean {
+        for(contact in contactList) {
+            if(contact.contains(number!!)) {
+                return true
+            }
+        }
+        return false
     }
 }

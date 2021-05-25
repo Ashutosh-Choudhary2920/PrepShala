@@ -40,11 +40,11 @@
         <activity android:name=".Search.SearchActivity" />
         <activity android:name=".secretDiary.SecretDiaryActivity" />
         <activity android:name=".notes.NotesActivity" />
-        <activity android:name=".toDo.ToDoActivity" />
+        <activity android:name=".toDo.ToDoActivity"
+            android:theme="@style/Theme.ActionBar"/>
         <activity android:name=".lecture.LectureActivity" />
         <activity android:name=".lakshaya.LakshyaActivity" />
         <activity android:name=".groupStudy.GroupStudy" />
-        <activity android:name=".chat.ChatActivity" />
         <activity
             android:name=".chat.ChatHomeActivity"
             android:theme="@style/Theme.ActionBar" />
