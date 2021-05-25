@@ -1,17 +1,12 @@
 package com.study.prepshala.chat
 
-import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Adapter
-import android.widget.SearchView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -20,12 +15,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import com.study.prepshala.DashboardActivity
 import com.study.prepshala.R
-import com.study.prepshala.Utils.closeKeyboard
 import com.study.prepshala.Utils.logD
 import com.study.prepshala.Utils.toast
 import com.study.prepshala.chatAdapter.TopStatusAdapter
@@ -33,10 +24,8 @@ import com.study.prepshala.chatAdapter.UsersAdapter
 import com.study.prepshala.models.Status
 import com.study.prepshala.models.User
 import com.study.prepshala.models.UserStatus
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat_home.*
 import java.util.*
-import java.util.Locale.filter
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -121,7 +110,15 @@ class ChatHomeActivity : AppCompatActivity() {
         val statusAdapter = TopStatusAdapter(this, userStatuses, contactList as ArrayList)
         var layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = RecyclerView.HORIZONTAL
+        statusList.layoutManager = layoutManager
+//        layoutManager.reverseLayout = false
         statusList.adapter = statusAdapter
+
+//        val statAdapter = TopStatusAdapter(this, userStatuses, contactList as ArrayList<String>)
+//        val layoutManager = LinearLayoutManager(this)
+//        layoutManager.orientation = RecyclerView.HORIZONTAL
+//        statusList.layoutManager = layoutManager
+//        statusList.adapter = statAdapter
 
         usersRecyclerView.showShimmerAdapter()
 

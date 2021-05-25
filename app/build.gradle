@@ -110,6 +110,7 @@ dependencies {
 
 
     //Uncomment this for SDK initialisation of Group Study
+    //Uncomment in Project level gradle module as well
     //implementation ('org.jitsi.react:jitsi-meet-sdk:2.+') { transitive = true }
 
 

@@ -7,6 +7,9 @@ import com.study.prepshala.R
 import com.study.prepshala.Search.SearchActivity
 import com.study.prepshala.Utils.toast
 import kotlinx.android.synthetic.main.activity_group_study_home.*
+import java.net.MalformedURLException
+import java.net.URL
+
 //import org.jitsi.meet.sdk.JitsiMeet
 //import org.jitsi.meet.sdk.JitsiMeetActivity
 //import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
@@ -65,7 +68,7 @@ class GroupStudy : AppCompatActivity() {
 //    private fun init1() {
 //        setListnersForSdkLaunch()
 //    }
-
+//
 //    private fun setListnersForSdkLaunch() {
 //
 //        try {

@@ -112,6 +112,7 @@ class OTPActivity : AppCompatActivity() {
                 for(snapshot1 in snapshot.children) {
                     val user: User = snapshot1.getValue(User::class.java)!!
                         if(phone == user.phoneNumber.toString()) {
+                            logD("Inside If")
                             found ++
                             break
                         }
