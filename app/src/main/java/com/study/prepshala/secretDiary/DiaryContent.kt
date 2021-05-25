@@ -96,6 +96,8 @@ class DiaryContent : AppCompatActivity() {
                 var currentTime: String = getCurrentTime()
                 viewModel.addEntries(SecretDiary(title,description,currentDate,currentTime))
                 val intent: Intent = Intent(this, SecretDiaryActivity::class.java )
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
         }
