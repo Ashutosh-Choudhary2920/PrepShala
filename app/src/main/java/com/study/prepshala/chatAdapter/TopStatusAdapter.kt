@@ -44,7 +44,8 @@ class TopStatusAdapter(var context: Context, var userStatuses: ArrayList<UserSta
         //or userStatuses[i].phone.equals(currentUsersNumber)
        val currentUsersNumber: String = FirebaseAuth.getInstance().currentUser.phoneNumber.toString()
         for(i in 0..userStatuses.size-1) {
-            if(contactList.contains(userStatuses[i].phone) or userStatuses[i].phone.equals(currentUsersNumber)) {
+ //           if(contactList.contains(userStatuses[i].phone) or userStatuses[i].phone.equals(currentUsersNumber))
+            if(doesContactContain(userStatuses[i].phone) or userStatuses[i].phone.equals(currentUsersNumber)) {
                 var check = 0
                 for(status: Status in userStatuses[i].statuses!!) {
                     val date: Date = Date()
@@ -130,5 +131,14 @@ class TopStatusAdapter(var context: Context, var userStatuses: ArrayList<UserSta
         val hours = minutes / 60
         val days = hours / 24
         return days
+    }
+
+    private fun doesContactContain(number: String?): Boolean {
+        for(contact in contactList) {
+            if(contact.contains(number!!)) {
+                return true
+            }
+        }
+        return false
     }
 }
