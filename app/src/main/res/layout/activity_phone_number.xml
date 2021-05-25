@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/textbox_outline"
                     android:ems="10"
-                    android:hint="Type your phone number"
+                    android:hint="Type your Phone No."
                     android:padding="10dp"
                     android:inputType="phone" />
 
